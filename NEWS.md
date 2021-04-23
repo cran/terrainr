@@ -1,3 +1,39 @@
+# terrainr 0.4.0
+* Breaking changes:
+    * Three changes in how `vector_to_overlay` deals with missing CRS in 
+      `vector_data`:
+        * A new argument, `error_crs`, behaves just like `error_crs` in 
+          `add_bbox`: if `NULL`, the function will give a warning when assuming
+          CRS; if `FALSE`, the function will assume a CRS silently, and if 
+          `TRUE`, the function will error if `vector_data` is missing a CRS.
+        * `target_crs` has been removed. `vector_data` will be given the CRS of 
+          `reference_raster` if it doesn't have its own CRS, and will always be
+          projected to the CRS of `reference_raster`.
+        * `error_crs` has been added to mirror `add_bbox_buffer`: if `NULL` and
+          your input data has no CRS, `vector_to_overlay` will warn about 
+          assuming the raster CRS. Set to `TRUE` to error or `FALSE` to ignore
+          the warning.
+    * NAIP imagery is now downloaded with `transparent = "false"` to
+      minimize the number of times the backup method to `merge_rasters` (see 
+      below) is called. To restore the old behavior, set `transparent = "true"` 
+      in either `get_tiles` or `hit_national_map_api`.
+    * `get_tiles` will now infer `bboxSR` and `imageSR` from provided `sf` or
+      `Raster` objects if not otherwise specified. To restore the old behavior,
+      set `bboxSR` and `imageSR` to `4326` in `get_tiles` (or set your data's 
+      CRS to 4326 before calling `get_tiles`).
+* Improvements and bug fixes:
+    * `merge_rasters` can once again handle merging mixed-band rasters (such as
+      NAIP images with and without alpha bands). At the moment this is using the
+      older, slower implementation and will raise a warning. (#30, #32).
+* Internal changes:
+    * Removed code to check for `ggplot2` from `vector_to_overlay` now that
+      `ggplot2` is required
+    * `calc_haversine_distance` (not exported) now assumes it's been provided
+      with degrees. `coord_units` has been removed as an argument.
+    * `get_tiles.terrainr_bounding_box` has been removed; it should no longer be
+      possible for users to have `terrainr_bounding_box` objects unless they 
+      were using non-exported functionality.
+
 # terrainr 0.3.1
 * First CRAN submission!
 * This is the smallest of patch releases, with almost no user-facing changes.

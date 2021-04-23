@@ -8,9 +8,9 @@ vector_to_overlay(
   vector_data,
   reference_raster,
   output_file = NULL,
-  target_crs = 4326,
   transparent = "#ffffff",
-  ...
+  ...,
+  error_crs = NULL
 )
 }
 \arguments{
@@ -26,16 +26,16 @@ vector containing a path to a file readable by \link[raster:raster]{raster::rast
 \item{output_file}{The path to save the image overlay to. If \code{NULL}, saves to
 a tempfile.}
 
-\item{target_crs}{The CRS (as an EPSG integer code) to transform vector data
-into. If using raster images from \link{get_tiles}, the default of 4326 is
-typically appropriate.}
-
 \item{transparent}{The hex code for a color to be made transparent in the
 final image. Set to \code{FALSE} to not set any colors to transparent.}
 
 \item{...}{Arguments passed to \code{...} in either \link[ggplot2:geom_point]{ggplot2::geom_point} (for
 point vector data), \link[ggplot2:geom_path]{ggplot2::geom_line} (for line data),
 or \link[ggplot2:geom_polygon]{ggplot2::geom_polygon} (for all other data types).}
+
+\item{error_crs}{Logical: Should this function error if \code{data} has no CRS?
+If \code{TRUE}, function errors; if \code{FALSE}, function quietly assumes EPSG:4326.
+If \code{NULL}, the default, function assumes EPSG:4326 with a warning.}
 }
 \value{
 \code{output_file}, invisibly.
