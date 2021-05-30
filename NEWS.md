@@ -1,3 +1,13 @@
+# terrainr 0.4.1
+* Improvements and bug fixes:
+    * `get_tiles` now displays a bulleted list of endpoints (again?), rather 
+      than a jumble of raw markdown
+    * `add_bbox_buffer` properly sets the CRS of the output when attempting to 
+      buffer geodesic coordinates.
+    * Typo fixes to an error message in `combine_overlays`
+* Internal changes:
+    * Added `importFrom` tag to `terrainr-package.R` to silence R CMD CHECK NOTE.
+
 # terrainr 0.4.0
 * Breaking changes:
     * Three changes in how `vector_to_overlay` deals with missing CRS in 
