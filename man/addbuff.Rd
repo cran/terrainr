@@ -8,7 +8,7 @@
 \alias{set_bbox_side_length}
 \alias{set_bbox_side_length.sf}
 \alias{set_bbox_side_length.Raster}
-\title{Add a uniform buffer around a bounding box}
+\title{Add a uniform buffer around a bounding box for geographic coordinates}
 \usage{
 add_bbox_buffer(data, distance, distance_unit = "meters", error_crs = NULL)
 
@@ -61,30 +61,34 @@ will not be exact.
 
 [set_bbox_side_length] is a thin wrapper around [add_bbox_buffer] which sets
 all sides of the bounding box to (approximately) a specified length.
+
+Both of these functions are intended to be used with geographic coordinate
+systems (data using longitude and latitude for position). For projected
+coordinate systems, a more sane approach is to use [sf::st_buffer] to add a
+buffer, or combine [sf::st_centroid] with the buffer to set a specific side
+length.
 }
 \examples{
 
 df <- data.frame(
   lat = c(44.04905, 44.17609),
   lng = c(-74.01188, -73.83493)
-  )
+)
 
 df_sf <- sf::st_as_sf(df, coords = c("lng", "lat"))
 df_sf <- sf::st_set_crs(df_sf, 4326)
 
 add_bbox_buffer(df_sf, 10)
 
-
 df <- data.frame(
   lat = c(44.04905, 44.17609),
   lng = c(-74.01188, -73.83493)
-  )
+)
 
 df_sf <- sf::st_as_sf(df, coords = c("lng", "lat"))
 df_sf <- sf::st_set_crs(df_sf, 4326)
 
 set_bbox_side_length(df_sf, 4000)
-
 }
 \seealso{
 Other utilities: 

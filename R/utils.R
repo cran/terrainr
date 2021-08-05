@@ -37,7 +37,6 @@ rad_to_deg <- function(rad) {
 #'
 #' @return A latitude/longitude
 get_centroid <- function(lat, lng) {
-
   lat <- deg_to_rad(lat)
   lng <- deg_to_rad(lng)
 
@@ -114,4 +113,20 @@ point_from_distance <- function(coord_pair,
     rad_to_deg(new_lat),
     rad_to_deg(new_lng)
   )))
+}
+
+#' Temporary convenience function to convert terrainr_bounding_box to bbox
+#'
+#' @param bbox The terrainr_bounding_box object to convert
+#'
+#' @keywords internal
+#'
+#' @noRd
+terrainr_st_bbox <- function(bbox) {
+  bbox <- data.frame(
+    lng = c(bbox@bl@lng, bbox@tr@lng),
+    lat = c(bbox@bl@lat, bbox@tr@lat)
+  )
+  bbox <- sf::st_as_sf(bbox, coords = c("lng", "lat"))
+  sf::st_bbox(bbox)
 }

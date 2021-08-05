@@ -153,22 +153,7 @@ knitr::include_graphics("combined_overlay.jpg")
 
 ## ----eval = FALSE-------------------------------------------------------------
 #  elevation_tile <- output_files[[1]]
-#  side_length <- vapply(c(elevation_tile, georef_tiles),
-#                        function(x) max(dim(raster::raster(x))),
-#                        numeric(1))
-#  
-#  mapply(function(x, y, z) {
-#    with_progress(
-#      raster_to_raw_tiles(input_file = x,
-#                          output_prefix = "mt_ebert",
-#                          side_length = y,
-#                          raw = z)
-#      )
-#  },
-#    c(elevation_tile, georef_tiles),
-#    side_length, # What's the longer edge of our image file?
-#    c(TRUE, FALSE) # we don't want to convert our orthoimages to .raw;
-#  )                # Unity takes the textures as .jpgs
+#  make_manifest(elevation_tile, georef_tiles)
 
 ## ----echo = FALSE-------------------------------------------------------------
 knitr::include_graphics("ebert_unity.jpg")

@@ -11,6 +11,9 @@
 #' to.
 #' @param options Optionally, a character vector of options to be passed
 #' directly to [sf::gdal_utils].
+#' @param force_fallback Logical: if TRUE, uses the much slower fallback method
+#' by default. This is used for testing purposes and is not recommended for use
+#' by end users.
 #'
 #' @return `output_raster`, invisibly.
 #'
@@ -19,45 +22,49 @@
 #' @examples
 #' \dontrun{
 #' simulated_data <- data.frame(
-#' lat = c(44.10379, 44.17573),
-#' lng = c(-74.01177, -73.91171)
+#'   lat = c(44.10379, 44.17573),
+#'   lng = c(-74.01177, -73.91171)
 #' )
 #'
 #' simulated_data <- sf::st_as_sf(simulated_data, coords = c("lng", "lat"))
 #'
 #' img_files <- get_tiles(simulated_data)
 #' merge_rasters(img_files[[1]])
-#'
 #' }
 #'
 #' @export
 merge_rasters <- function(input_rasters,
                           output_raster = tempfile(fileext = ".tif"),
-                          options = character(0)) {
-
-  tryCatch(
-    sf::gdal_utils(util = "warp",
-                   source = as.character(input_rasters),
-                   destination = output_raster,
-                   options = options),
-    error = function(e) {
-      warning(
-        "\nReceived error from gdalwarp.",
-        "Trying another method. This may take longer than normal...")
-      merge_rasters_deprecated(input_rasters, output_raster, options)
-    }
-  )
+                          options = character(0),
+                          force_fallback = FALSE) {
+  if (!force_fallback) {
+    tryCatch(
+      sf::gdal_utils(
+        util = "warp",
+        source = as.character(input_rasters),
+        destination = output_raster,
+        options = options
+      ),
+      error = function(e) {
+        warning(
+          "\nReceived error from gdalwarp.",
+          "Trying another method. This may take longer than normal..."
+        )
+        merge_rasters_deprecated(input_rasters, output_raster, options)
+      }
+    )
+  } else {
+    merge_rasters_deprecated(input_rasters, output_raster, options)
+  }
   return(invisible(output_raster))
 }
 
 # This is the deprecated code that used to make up merge_rasters
 # It's currently used in cases where tiles have differing numbers of bands
 # All arguments are documented above
-merge_rasters_deprecated <- function(
-  input_rasters,
-  output_raster = tempfile(fileext = ".tif"),
-  options = character(0)) {
-
+merge_rasters_deprecated <- function(input_rasters,
+                                     output_raster = tempfile(fileext = ".tif"),
+                                     options = character(0)) {
   if (length(options) > 0) {
     stop("Options are not respected when trying to merge rasters with differing numbers of bands") # nolint
   }
@@ -76,7 +83,6 @@ merge_rasters_deprecated <- function(
   }
 
   fix_height <- 0
-  fix_ortho <- 0
 
   if (grepl("\\.tiff$", output_raster)) {
     fix_height <- 1
@@ -94,11 +100,11 @@ merge_rasters_deprecated <- function(
     function(x) x@file@nbands == 4,
     logical(1)
   )) &&
-  !all(vapply(
-    input_raster_objects,
-    function(x) x@file@nbands == 4,
-    logical(1)
-  ))) {
+    !all(vapply(
+      input_raster_objects,
+      function(x) x@file@nbands == 4,
+      logical(1)
+    ))) {
     tmprst <- vapply(
       seq_along(input_rasters),
       function(x) tempfile(fileext = ".tif"),
@@ -108,7 +114,7 @@ merge_rasters_deprecated <- function(
       function(x, y) {
         raster::writeRaster(
           raster::stack(x[[1]],
-                        bands = 1:3
+            bands = 1:3
           ),
           y
         )
@@ -149,8 +155,8 @@ merge_rasters_deprecated <- function(
   # attempts to warn us about this silly thing we're doing
   # but we're doing it on purpose, so suppress those warnings
   suppressWarnings(raster::writeRaster(total_extent,
-                                       output_raster,
-                                       overwrite = TRUE
+    output_raster,
+    overwrite = TRUE
   ))
 
   invisible(
@@ -168,10 +174,11 @@ merge_rasters_deprecated <- function(
 
   if (exists("tmprst")) lapply(tmprst, unlink)
 
-  message("...done.",
-          "The alternate method seems to have worked!",
-          "If your merged output looks right, you can ignore the above error.")
+  message(
+    "...done.\n",
+    "The alternate method seems to have worked!\n",
+    "If your merged output looks right, you can ignore the above error.\n"
+  )
 
   return(output_list)
-
 }
