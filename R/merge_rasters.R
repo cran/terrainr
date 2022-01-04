@@ -10,7 +10,12 @@
 #' @param output_raster The file path to save the merged georeferenced raster
 #' to.
 #' @param options Optionally, a character vector of options to be passed
-#' directly to [sf::gdal_utils].
+#' directly to [sf::gdal_utils]. If the fallback is used and any options (other
+#' than "-overwrite") are specified, this will issue a warning.
+#' @param overwrite Logical: overwrite `output_raster` if it exists? If FALSE
+#' and the file exists, this function will fail with an error. The behavior if
+#' this argument is TRUE and "-overwrite" is passed to `options` directly is
+#' not stable.
 #' @param force_fallback Logical: if TRUE, uses the much slower fallback method
 #' by default. This is used for testing purposes and is not recommended for use
 #' by end users.
@@ -36,15 +41,30 @@
 merge_rasters <- function(input_rasters,
                           output_raster = tempfile(fileext = ".tif"),
                           options = character(0),
+                          overwrite = FALSE,
                           force_fallback = FALSE) {
+  if (file.exists(output_raster) &&
+    !overwrite &&
+    !any(options == "-overwrite")) {
+    stop("File exists at ", output_raster, " and overwrite is not TRUE.")
+  }
+
+  if (!any(options == "-overwrite") && overwrite) {
+    options <- c(options, "-overwrite")
+  }
+
+  initial_file <- output_raster
+
   if (!force_fallback) {
     tryCatch(
-      sf::gdal_utils(
-        util = "warp",
-        source = as.character(input_rasters),
-        destination = output_raster,
-        options = options
-      ),
+      {
+        sf::gdal_utils(
+          util = "warp",
+          source = as.character(input_rasters),
+          destination = output_raster,
+          options = options
+        )
+      },
       error = function(e) {
         warning(
           "\nReceived error from gdalwarp.",
@@ -54,6 +74,7 @@ merge_rasters <- function(input_rasters,
       }
     )
   } else {
+    options <- setdiff(options, "-overwrite")
     merge_rasters_deprecated(input_rasters, output_raster, options)
   }
   return(invisible(output_raster))
@@ -66,7 +87,7 @@ merge_rasters_deprecated <- function(input_rasters,
                                      output_raster = tempfile(fileext = ".tif"),
                                      options = character(0)) {
   if (length(options) > 0) {
-    stop("Options are not respected when trying to merge rasters with differing numbers of bands") # nolint
+    warning("Options are not respected when trying to merge rasters with differing numbers of bands") # nolint
   }
 
   output_list <- vector("list")

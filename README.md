@@ -11,7 +11,7 @@ MIT](https://img.shields.io/badge/license-MIT-green)](https://choosealicense.com
 status](https://www.r-pkg.org/badges/version/terrainr)](https://cran.r-project.org/package=terrainr)
 [![Lifecycle:
 maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html#maturing)
-[![codecov](https://codecov.io/gh/ropensci/terrainr/branch/main/graph/badge.svg)](https://codecov.io/gh/ropensci/terrainr)
+[![codecov](https://codecov.io/gh/ropensci/terrainr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ropensci/terrainr)
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -100,7 +100,7 @@ walk through your downloaded data sets in 3D and VR:
 
 ``` r
 with_progress( # When not specifying resolution, default is 1m pixels
-  output_tiles <- get_tiles(simulated_data,
+  output_tiles <- get_tiles(location_of_interest,
                             services = c("elevation", "ortho"))
 )
 
@@ -111,9 +111,11 @@ merged_ortho <- merge_rasters(output_tiles[["ortho"]],
 
 make_manifest(output_tiles$elevation,
               output_tiles$ortho)
-
-# We can then import these tiles to Unity to create:
 ```
+
+We can then import these tiles to Unity (following the [Import
+Vignette](https://docs.ropensci.org/terrainr/articles/unity_instructions.html))
+to create:
 
 <img src="man/figures/20210728unity.jpg" width="100%" />
 

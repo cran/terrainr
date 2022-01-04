@@ -53,6 +53,7 @@
 #' * [transportation](https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer)
 #' * [wbd](https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer)
 #'   ("short code": watersheds)
+#' * [ecosystems](https://www.usgs.gov/centers/geosciences-and-environmental-change-science-center/science/global-ecosystems)
 #'
 # nolint end
 #'
@@ -206,8 +207,10 @@ get_tiles.Raster <- function(data,
   } # nolint
 
   data <- raster::extent(data)
-  data <- data.frame(lng = c(data@xmin, data@xmax),
-                     lat = c(data@ymin, data@ymax))
+  data <- data.frame(
+    lng = c(data@xmin, data@xmax),
+    lat = c(data@ymin, data@ymax)
+  )
   data <- sf::st_as_sf(data, coords = c("lng", "lat"))
   data <- sf::st_bbox(data)
 
@@ -284,7 +287,8 @@ get_tiles_internal <- function(data,
     "NHDPlus_HR",
     "structures",
     "transportation",
-    "watersheds" = "wbd"
+    "watersheds" = "wbd",
+    "ecosystems"
   )
 
   stopifnot(all(services %in% list_of_services |
@@ -478,7 +482,9 @@ split_bbox <- function(data, side_length, resolution = 1, projected) {
       c("lng" = data[["xmin"]], "lat" = data[["ymin"]]),
       c("lng" = data[["xmax"]], "lat" = data[["ymax"]])
     )
-  } else bbox <- data
+  } else {
+    bbox <- data
+  }
   tl <- terrainr_coordinate_pair(c(bbox@tr@lat, bbox@bl@lng))
 
   if (projected) {

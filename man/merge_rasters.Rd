@@ -8,6 +8,7 @@ merge_rasters(
   input_rasters,
   output_raster = tempfile(fileext = ".tif"),
   options = character(0),
+  overwrite = FALSE,
   force_fallback = FALSE
 )
 }
@@ -19,7 +20,13 @@ georeferenced rasters you want to use.}
 to.}
 
 \item{options}{Optionally, a character vector of options to be passed
-directly to [sf::gdal_utils].}
+directly to [sf::gdal_utils]. If the fallback is used and any options (other
+than "-overwrite") are specified, this will issue a warning.}
+
+\item{overwrite}{Logical: overwrite `output_raster` if it exists? If FALSE
+and the file exists, this function will fail with an error. The behavior if
+this argument is TRUE and "-overwrite" is passed to `options` directly is
+not stable.}
 
 \item{force_fallback}{Logical: if TRUE, uses the much slower fallback method
 by default. This is used for testing purposes and is not recommended for use
