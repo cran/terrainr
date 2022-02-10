@@ -1,7 +1,7 @@
-cb923c7d593bee91bb74ec0e731a50bc *DESCRIPTION
+fdd161bf3f47b400860286f7c55fd156 *DESCRIPTION
 12609f630bc7728dbb94f1ff2861c596 *LICENSE
 dc3edf096f4a9accedf6d1af4fdf3f62 *NAMESPACE
-2c2b6d7acb3caabc5bcb8ce2a9ae474d *NEWS.md
+53a1c666a50e6fe749f00df126d312e6 *NEWS.md
 eb5f1562fbc3e804c753ea5f1f2e5573 *R/add_bbox_buffer.R
 aecab270e5ab691af902d7a3b8c6350a *R/calc_haversine_distance.R
 14bc095aab7362f0d6eb9d025c583607 *R/classes.R
@@ -16,7 +16,7 @@ b1dbabf6f0964a3748dd6942cc193eb0 *R/merge_rasters.R
 44c8ec5385c7d0678fd34d9f00cce470 *R/terrainr-package.R
 b0cedd61acef2f38cadf24cfc6d6d9dc *R/utils.R
 7a7c8f1400eba361abe8607ff776c033 *R/vector_to_overlay.R
-636ffde14464a2587447d81fe0d8b671 *README.md
+c271e645fb4ab814421462bf48bc4f08 *README.md
 8e2a603d0caf05a72268c2bf2dae5274 *build/vignette.rds
 6c2b66341b7ed99fb34ac92cf7ebad22 *inst/CITATION
 27918c4ea4ff190f9646e2b7f1fd969a *inst/doc/overview.R
