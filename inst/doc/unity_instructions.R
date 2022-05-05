@@ -21,21 +21,12 @@ knitr::opts_chunk$set(
 #    get_tiles(services = c("elevation", "ortho")) %>%
 #    lapply(merge_rasters)
 
-## ---- eval = FALSE------------------------------------------------------------
-#  make_manifest(merged_tiles$elevation,
-#                merged_tiles$ortho)
-
-## ---- echo = FALSE------------------------------------------------------------
-knitr::include_graphics("generated_files.png")
-
-## ---- echo = FALSE------------------------------------------------------------
-knitr::include_graphics("new_unity.jpg")
-
-## ---- echo = FALSE------------------------------------------------------------
-knitr::include_graphics("manifest_import.png")
-
-## ---- echo = FALSE------------------------------------------------------------
-knitr::include_graphics("ominous.png")
+## ----eval = FALSE-------------------------------------------------------------
+#  make_unity(
+#    project = "zion",
+#    heightmap = merged_tiles$elevation,
+#    overlay = merged_tiles$ortho
+#  )
 
 ## ---- echo = FALSE------------------------------------------------------------
 knitr::include_graphics("terrain_surface.jpg")
