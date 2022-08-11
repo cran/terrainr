@@ -1,7 +1,7 @@
 Type: Package
 Package: terrainr
 Title: Landscape Visualizations in R and 'Unity'
-Version: 0.7.0
+Version: 0.7.1
 Authors@R: c(
     person("Michael", "Mahoney", , "mike.mahoney.218@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-2402-304X")),
@@ -19,17 +19,18 @@ License: MIT + file LICENSE
 URL: https://docs.ropensci.org/terrainr/,
         https://github.com/ropensci/terrainr
 BugReports: https://github.com/ropensci/terrainr/issues
-Imports: base64enc, ggplot2, grDevices, httr, magick (>= 2.5.0),
-        methods, png, sf (>= 1.0-5), terra, unifir, units
-Suggests: brio, covr, jpeg, knitr, progress, progressr, raster, rgdal,
+Imports: base64enc, ggplot2, glue, grDevices, httr, magick (>= 2.5.0),
+        methods, png, raster (>= 3.5-19), rlang, sf (>= 1.0-5), terra,
+        unifir, units
+Suggests: brio, covr, jpeg, knitr, progress, progressr, rgdal,
         rmarkdown, testthat, tiff
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 Config/testthat/parallel: true
 Encoding: UTF-8
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 NeedsCompilation: no
-Packaged: 2022-05-05 15:31:51 UTC; mikemahoney218
+Packaged: 2022-08-11 13:21:38 UTC; mikemahoney218
 Author: Michael Mahoney [aut, cre] (<https://orcid.org/0000-0003-2402-304X>),
   Mike Johnson [rev] (Mike reviewed the package (v. 0.2.1) for rOpenSci,
     see <https://github.com/ropensci/software-review/issues/416>),
@@ -37,4 +38,4 @@ Author: Michael Mahoney [aut, cre] (<https://orcid.org/0000-0003-2402-304X>),
     see <https://github.com/ropensci/software-review/issues/416>)
 Maintainer: Michael Mahoney <mike.mahoney.218@gmail.com>
 Repository: CRAN
-Date/Publication: 2022-05-05 23:20:06 UTC
+Date/Publication: 2022-08-11 13:40:02 UTC
