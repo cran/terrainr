@@ -4,7 +4,7 @@
 #' tiles, and retrieves data from the USGS National map for each tile. As of
 #' version 0.5.0, the method for lists has been deprecated.
 #'
-#' @param data An `sf` or `SpatRast` object; tiles will be downloaded for the
+#' @param data An `sf` or `SpatRaster` object; tiles will be downloaded for the
 #' full extent of the provided object.
 #' @param output_prefix The file prefix to use when saving tiles.
 #' @param side_length The length, in meters, of each side of tiles to download.
@@ -43,7 +43,7 @@
 #'   (short code: elevation)
 #' * [USGSNAIPPlus](https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer/exportImage)
 #'   (short code: ortho)
-#' * [HRO](https://imagery.nationalmap.gov/arcgis/rest/services/HRO/ImageServer)
+# * [HRO](https://imagery.nationalmap.gov/arcgis/rest/services/HRO/ImageServer)
 #' * [USGSNAIPImagery](https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer)
 #' * [nhd](https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer)
 #'   (short code: hydro)
@@ -56,6 +56,12 @@
 #' * [wbd](https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer)
 #'   ("short code": watersheds)
 #' * [ecosystems](https://www.usgs.gov/centers/geosciences-and-environmental-change-science-center/science/global-ecosystems)
+#' * [USGSTopo](https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer)
+#' * [USGSShadedReliefOnly](https://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer)
+#' * [USGSImageryOnly](https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer)
+#' * [USGSHydroCached](https://basemap.nationalmap.gov/arcgis/rest/services/USGSHydroCached/MapServer)
+#' * [USGSTNMBlank](https://basemap.nationalmap.gov/arcgis/rest/services/USGSTNMBlank/MapServer)
+#'
 #'
 # nolint end
 #'
@@ -191,9 +197,7 @@ get_tiles.Raster <- function(data,
                              georeference = TRUE,
                              projected = NULL,
                              ...) {
-  tmp <- tempfile(fileext = ".tiff")
-  raster::writeRaster(data, tmp)
-  data <- terra::rast(tmp)
+  data <- terra::rast(data)
   get_tiles.SpatRaster(data,
                        output_prefix = output_prefix,
                        side_length = side_length,
@@ -323,7 +327,12 @@ get_tiles_internal <- function(data,
     "structures",
     "transportation",
     "watersheds" = "wbd",
-    "ecosystems"
+    "ecosystems",
+    "USGSTopo",
+    "USGSShadedReliefOnly",
+    "USGSImageryOnly",
+    "USGSHydroCached",
+    "USGSTNMBlank"
   )
 
   stopifnot(all(services %in% list_of_services |
@@ -354,7 +363,7 @@ get_tiles_internal <- function(data,
 
   if (any(services %in% png_files) && side_length > 4096) {
     rlang::abort(c(
-      "USGSNAIPPlus tiles have a maximum side length of 4096.",
+      "These tiles have a maximum side length of 4096.",
       i = "Set `side_length` to 4096 or less"
     ))
   }

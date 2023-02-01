@@ -88,16 +88,22 @@ hit_national_map_api <- function(bbox,
     "3DEPElevation" = "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage",
     "USGSNAIPPlus" = "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer/exportImage",
     "USGSNAIPImagery" = "https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer/exportImage",
-    "HRO" = "https://imagery.nationalmap.gov/arcgis/rest/services/HRO/ImageServer/exportImage",
+# Currently offline
+    #    "HRO" = "https://imagery.nationalmap.gov/arcgis/rest/services/HRO/ImageServer/exportImage",
     "nhd" = "https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer/export",
     "govunits" = "https://carto.nationalmap.gov/arcgis/rest/services/govunits/MapServer/export",
-    "contours" = "https://carto.nationalmap.gov/arcgis/rest/services/contours/MapServer/export",
+    "contours" = "https://cartowfs.nationalmap.gov/arcgis/rest/services/contours/MapServer/export",
     "geonames" = "https://carto.nationalmap.gov/arcgis/rest/services/geonames/MapServer/export",
     "NHDPlus_HR" = "https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer/export",
     "structures" = "https://carto.nationalmap.gov/arcgis/rest/services/structures/MapServer/export",
     "transportation" = "https://carto.nationalmap.gov/arcgis/rest/services/transportation/MapServer/export",
     "wbd" = "https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer/export",
-    "ecosystems" = "https://rmgsc.cr.usgs.gov/arcgis/rest/services/contUS/MapServer/export"
+    "ecosystems" = "https://rmgsc.cr.usgs.gov/arcgis/rest/services/contUS/MapServer/export",
+    "USGSTopo" = "https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/export",
+    "USGSShadedReliefOnly" = "https://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer/export",
+    "USGSImageryOnly" = "https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/export",
+    "USGSHydroCached" = "https://basemap.nationalmap.gov/arcgis/rest/services/USGSHydroCached/MapServer/export",
+    "USGSTNMBlank" = "https://basemap.nationalmap.gov/arcgis/rest/services/USGSTNMBlank/MapServer/export"
   )
   # nolint end
 
@@ -196,12 +202,12 @@ hit_national_map_api <- function(bbox,
         # nocov end
       )
 
-      if (counter < 15 && !is.null(body$error)) {
+      if (counter < 5 && !is.null(body$error)) {
         get_href(counter = counter + 1) # nocov
       } else {
         return(body)
       }
-    } else if (counter < 15) {
+    } else if (counter < 5) {
       get_href(counter = counter + 1)
     } else { # nocov start
       stop(
@@ -217,8 +223,10 @@ hit_national_map_api <- function(bbox,
     if (verbose) rlang::inform(sprintf("API call 2 attempt %d", 1))
     img_res <- httr::GET(body$href, agent)
     counter <- 0
-    while (counter < 15 && httr::http_error(img_res)) {
-      if (verbose) rlang::inform(sprintf("API call 2 attempt %d", counter + 1))
+    for (counter in seq_len(5)) {
+      if (!httr::http_error(img_res)) break
+
+      if (verbose) rlang::inform(sprintf("API call 2 attempt %d", counter))
       backoff <- stats::runif(n = 1, min = 0, max = floor(c(
         2^counter - 1,
         30

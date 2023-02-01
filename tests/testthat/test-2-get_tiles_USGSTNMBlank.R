@@ -1,4 +1,5 @@
-test_that("get_tiles gets the same contours tiles twice", {
+# Disabled due to unreliable API endpoint
+test_that("get_tiles gets the same topo tiles twice", {
   skip_on_cran()
   dl_loc <- data.frame(
     lat = c(44.04905, 44.04911),
@@ -8,17 +9,17 @@ test_that("get_tiles gets the same contours tiles twice", {
   sf::st_crs(dl_loc) <- sf::st_crs(4326)
 
   output_tif <- get_tiles(dl_loc,
-    services = c("contours"),
+    services = c("USGSTNMBlank"),
     georeference = FALSE
   )
 
-  expect_equal(names(output_tif), "contours")
+  expect_equal(names(output_tif), "USGSTNMBlank")
 
   expect_equal(length(output_tif), 1)
   expect_equal(length(output_tif[[1]]), 1)
 
   expect_equal(
     png::readPNG(output_tif[[1]]),
-    png::readPNG("testdata/contours.png")
+    png::readPNG("testdata/USGSTNMBlank.png")
   )
 })

@@ -82,7 +82,7 @@ get_tiles(
 )
 }
 \arguments{
-\item{data}{An \code{sf} or \code{SpatRast} object; tiles will be downloaded for the
+\item{data}{An \code{sf} or \code{SpatRaster} object; tiles will be downloaded for the
 full extent of the provided object.}
 
 \item{output_prefix}{The file prefix to use when saving tiles.}
@@ -138,7 +138,6 @@ documentation.
 (short code: elevation)
 \item \href{https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPPlus/ImageServer/exportImage}{USGSNAIPPlus}
 (short code: ortho)
-\item \href{https://imagery.nationalmap.gov/arcgis/rest/services/HRO/ImageServer}{HRO}
 \item \href{https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer}{USGSNAIPImagery}
 \item \href{https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer}{nhd}
 (short code: hydro)
@@ -151,6 +150,11 @@ documentation.
 \item \href{https://hydro.nationalmap.gov/arcgis/rest/services/wbd/MapServer}{wbd}
 ("short code": watersheds)
 \item \href{https://www.usgs.gov/centers/geosciences-and-environmental-change-science-center/science/global-ecosystems}{ecosystems}
+\item \href{https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer}{USGSTopo}
+\item \href{https://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer}{USGSShadedReliefOnly}
+\item \href{https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer}{USGSImageryOnly}
+\item \href{https://basemap.nationalmap.gov/arcgis/rest/services/USGSHydroCached/MapServer}{USGSHydroCached}
+\item \href{https://basemap.nationalmap.gov/arcgis/rest/services/USGSTNMBlank/MapServer}{USGSTNMBlank}
 }
 }
 
