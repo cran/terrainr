@@ -1,7 +1,7 @@
-134a7e8e4f070ce2f41f280d01695077 *DESCRIPTION
+f215ea53f7c80019c8e4f49d00f068e1 *DESCRIPTION
 12609f630bc7728dbb94f1ff2861c596 *LICENSE
 ee8a46a0d03ed4c5ec6e3a32ec8141e5 *NAMESPACE
-a7d4e7e9c51e5c0f5c0ed62a118367e2 *NEWS.md
+bace5348f7b6a40b36a81c2dc6e2607f *NEWS.md
 0ea1dfe3bf1bebf8bbabbc31d8fbbe7d *R/add_bbox_buffer.R
 aecab270e5ab691af902d7a3b8c6350a *R/calc_haversine_distance.R
 14bc095aab7362f0d6eb9d025c583607 *R/classes.R
@@ -9,7 +9,7 @@ aecab270e5ab691af902d7a3b8c6350a *R/calc_haversine_distance.R
 a6ea1bc5513941d035f1b1461fe80c68 *R/geom_spatial_rgb.R
 26576893ed264967164e170ac87595f6 *R/georeference_overlay.R
 1fa20b1224995585da18f0930c9204d9 *R/get_tiles.R
-a5fd3b56e809032fca0e33ae2410ecd6 *R/hit_api.R
+d1634abc0e884c4cd7a2a16119f67222 *R/hit_api.R
 7ab9f1b3afc0fb269f85ac4f210c060e *R/make_manifest.R
 f0702f1269216dd7a004d4f60e146a50 *R/make_unity.R
 14f91c592076a74be158673efd0259e8 *R/merge_rasters.R
@@ -17,7 +17,7 @@ b492065bf12c0907dc565d11c5f96e63 *R/raster_to_raw_tiles.R
 44c8ec5385c7d0678fd34d9f00cce470 *R/terrainr-package.R
 a8d0d9fc1b2cdf9d94ece8d4231db09c *R/utils.R
 ffafed15110673c2c988361cb2924301 *R/vector_to_overlay.R
-ca31007839341bb6da7ba5b5eb843780 *README.md
+51d0cb5b0fd48c1f891dd53125d14895 *README.md
 cc833c907d6f10d51c5ce9077260f17d *build/vignette.rds
 7b6c7f08155d596919cb16baa785475d *inst/CITATION
 27918c4ea4ff190f9646e2b7f1fd969a *inst/doc/overview.R
@@ -56,7 +56,7 @@ d43740dca43fef2af6a2a7eeafc7b58d *man/terrainr_coordinate_pair.Rd
 30a1ace4d7e2cb883114c61c52ec7aee *tests/testthat.R
 9b1da6d75b652a2829005ca1bbb66ccf *tests/testthat/_snaps/add_bbox_buffer.md
 6413640441204857b8a5d7438b1e9f52 *tests/testthat/test-1-make_manifest.R
-d1d3af21853e0333aa052687c5982c44 *tests/testthat/test-2-get_tiles_3dep.R
+14849fd0be0b569648efbdd18270bb27 *tests/testthat/test-2-get_tiles_3dep.R
 2f80d61d1de433bcff30f1db4420157c *tests/testthat/test-2-get_tiles_USGSHydroCached.R
 61b755fc0f01189bd73cc91bb3689319 *tests/testthat/test-2-get_tiles_USGSImageryOnly.R
 dcd6364411f5cae7d6eab0e7e636232b *tests/testthat/test-2-get_tiles_USGSShadedReliefOnly.R
@@ -70,7 +70,7 @@ c68263c71b2e5a9b142ef34e12718e6a *tests/testthat/test-2-get_tiles_contours.txt
 e4ab706925e76d3024629cea46fdb578 *tests/testthat/test-2-get_tiles_transportation.R
 1d938b5d169853ffad836af400d121fe *tests/testthat/test-2-get_tiles_wbd.R
 07f141f57eaab3c250c4eb43b36daf19 *tests/testthat/test-3-hit_api.R
-84d4989a024a7ca03586cf164c7932ee *tests/testthat/test-4-merge_rasters.R
+ee7d72a41e9dd0150482d5b2fdbbd0ce *tests/testthat/test-4-merge_rasters.R
 b2742cbc6a2da8d63c29186c7f8cd93a *tests/testthat/test-add_bbox_buffer.R
 17818ac583312e8210f882d38a4e542f *tests/testthat/test-calc_haversine_distance.R
 4b4fe23665d657587a3df4d26537de20 *tests/testthat/test-classes.R
