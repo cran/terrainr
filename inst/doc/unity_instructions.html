@@ -356,20 +356,20 @@ data for this process.</p>
 function from <code>tmaptools</code> to get the latitude and longitude
 of Zion National Park, out in Utah. We’ll use this area for our
 visualization today:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>zion <span class="ot">&lt;-</span> tmaptools<span class="sc">::</span><span class="fu">geocode_OSM</span>(<span class="st">&quot;Zion National Park&quot;</span>)<span class="sc">$</span>coords</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>zion <span class="ot">&lt;-</span> tmaptools<span class="sc">::</span><span class="fu">geocode_OSM</span>(<span class="st">&quot;Zion National Park&quot;</span>)<span class="sc">$</span>coords</span></code></pre></div>
 <p>Our <code>zion</code> object now contains the x and y coordinates for
 a spot near the middle of Zion National Park. Let’s go ahead and turn
 that into an <code>sf</code> object, then use
 <code>set_bbox_side_length</code> to add a buffer around the point
 coordinates – we’ll download data for the entire 8 kilometer square
 around the central point:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terrainr)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>zion <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> zion[[<span class="st">&quot;x&quot;</span>]], <span class="at">y =</span> zion[[<span class="st">&quot;y&quot;</span>]]) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>), <span class="at">crs =</span> <span class="dv">4326</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_bbox_side_length</span>(<span class="dv">8000</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(terrainr)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>zion <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> zion[[<span class="st">&quot;x&quot;</span>]], <span class="at">y =</span> zion[[<span class="st">&quot;y&quot;</span>]]) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>), <span class="at">crs =</span> <span class="dv">4326</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  <span class="fu">set_bbox_side_length</span>(<span class="dv">8000</span>)</span></code></pre></div>
 <p>And now we can go ahead and download data for our area of interest,
 then merge the downloaded tiles into individual rasters. For more on
 this process or what these functions do, check out (the overview
@@ -379,20 +379,20 @@ time! You can optionally add a progress bar to the
 <code>get_tiles</code> download by calling
 <code>library(progressr)</code> and then
 <code>handlers(global = TRUE)</code> before running this code.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>merged_tiles <span class="ot">&lt;-</span> zion <span class="sc">%&gt;%</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_tiles</span>(<span class="at">services =</span> <span class="fu">c</span>(<span class="st">&quot;elevation&quot;</span>, <span class="st">&quot;ortho&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(merge_rasters)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>merged_tiles <span class="ot">&lt;-</span> zion <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="fu">get_tiles</span>(<span class="at">services =</span> <span class="fu">c</span>(<span class="st">&quot;elevation&quot;</span>, <span class="st">&quot;ortho&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="fu">lapply</span>(merge_rasters)</span></code></pre></div>
 <p>We’ve now got our data downloaded! All that’s left is to import these
 tiles into Unity.</p>
 <p>As of terrainr 0.7.0, the way to do this is via the function
 <code>make_unity</code>. Assuming you have Unity installed on your
 computer, we can go ahead and import our terrain into a brand new
 project, named <code>zion</code>, through the following:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make_unity</span>(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">project =</span> <span class="st">&quot;zion&quot;</span>,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">heightmap =</span> merged_tiles<span class="sc">$</span>elevation,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">overlay =</span> merged_tiles<span class="sc">$</span>ortho</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">make_unity</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="at">project =</span> <span class="st">&quot;zion&quot;</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="at">heightmap =</span> merged_tiles<span class="sc">$</span>elevation,</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="at">overlay =</span> merged_tiles<span class="sc">$</span>ortho</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>)</span></code></pre></div>
 <p>This will create a new folder, named <code>zion</code>, containing
 our Unity project. Open that project in Unity, and then open the scene
 (either using <code>Ctrl+O</code> or <code>File -&gt; Open Scene</code>)
